@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap" rel="stylesheet">
+    <title>Freddy Freed</title>
+    <style>
+        * {
+            font-family: 'Josefin Sans', sans-serif;
+            font-size: 16px;
+            color: #1D3059;
+            box-sizing: border-box;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 600px;
+            height: 500px;
+            background-color: #fff;
+            border: 8px solid #1d30598c;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: stretch;
+            padding: 20px;
+            animation: fade-in 0.5s ease-in;
+        }
+
+        .popup-header {
+            font-family: 'Josefin Sans', sans-serif;
+            font-size: 26px;
+            color: #1D3059;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .popup-paragraph {
+            font-family: 'Josefin Sans', sans-serif;
+            color: #1D3059;
+            margin-bottom: 20px;
+        }
+
+        .popup-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            text-align: center;
+            transform: translateY(-30px);
+        }
+
+        .popup-logo {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 0;
+            display: flex;
+        }
+
+        .popup-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-family: 'Josefin Sans', sans-serif;
+            color: #1D3059;
+            text-decoration: underline;
+            text-decoration-color: lightgray;
+        }
+
+        .popup-login {
+            display: flex;
+            gap: 4px;
+            align-items: self-end;
+        }
+
+        .popup-login-link {
+            font-family: 'Josefin Sans', sans-serif;
+            font-size: 11px;
+            text-transform: uppercase;
+            color: #1D3059;
+            text-decoration: underline;
+            text-decoration-color: lightgray;
+            cursor: pointer;
+        }
+
+        .popup-button {
+            padding: 10px 20px;
+            background-color: #1D3059;
+            color: #fff;
+            font-family: 'Josefin Sans', sans-serif;
+            font-size: 20.5px;
+            border: 3px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .popup-button:hover {
+            opacity: 0.5;
+            transition: opacity 0.2s ease-in;
+        }
+
+        .powered-by {
+            position: absolute;
+            bottom: 10px;
+            right: 20px;
+            font-size: 15.3px;
+            color: #1D3059;
+            text-decoration: none;
+        }
+
+        .slides {
+            text-align: center;
+            transform: translateY(-30px);
+        }
+
+        .slide {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        .close-icon {
+            width: 35px;
+            height: 35px;
+            background-color: #1d30598c;
+            color: white;
+            border-radius: 10px;
+            border: none;
+            position: absolute;
+            right: -7px;
+            top: -7px;
+            padding-bottom: 3px;
+            font-size: x-large;
+            cursor: pointer;
+            display: flex;
+            align-items: end;
+            justify-content: center;
+        }
+
+        .back-btn {
+            width: 35px;
+            height: 35px;
+            background-color: #1d30598c;
+            color: white;
+            border-radius: 10px;
+            border: none;
+            position: absolute;
+            left: 7px;
+            bottom: 7px;
+            font-size: x-large;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        @keyframes fade-in {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fade-out {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        .dropdowns {
+            text-align: center;
+        }
+
+        .dropdown {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        label {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        select {
+            border: 2px solid #1D3059;
+            border-radius: 10px;
+            padding: 5px;
+        }
+
+        .checkboxes {
+            display: flex;
+            flex-direction: column;
+            align-items: baseline;
+            gap: 30px;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            text-align: left;
+        }
+
+        .checkbox-container label {
+            margin-left: 5px;
+        }
+
+        input[type='checkbox'] {
+            width: 25px;
+            height: 25px;
+            flex: none;
+        }
+
+        .rounded {
+            border-radius: 20px;
+            width: 170px;
+        }
+
+        .side-note {
+            position: absolute;
+            right: 20px;
+            bottom: 0;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .popup-trigger {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .button-text {
+            color: white;
+        }
+
+        /* Responsive adjustments */
+        @media screen and (max-width: 600px) {
+            .popup-container {
+                padding: 10px;
+            }
+
+            .popup-header {
+                font-size: 22px;
+            }
+
+            .popup-paragraph {
+                font-size: 10px;
+            }
+
+            .popup-logo {
+                width: 40px;
+                height: 40px;
+            }
+
+            .popup-login {
+                font-size: 8px;
+            }
+
+            .popup-button {
+                font-size: 18px;
+            }
+
+            .powered-by {
+                font-size: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<img src="img/trigger.png" alt="" onclick="openPopup()" style="cursor: pointer;">
+
+<div id="popupContainer" class="popup">
+    <span class="close-icon" onclick="closePopup()">X</span>
+    <button onclick="previousSlide()" class="back-btn"><<</button>
+
+    <div class="popup-top">
+        <div class="popup-logo"><img src="img/logo.png" alt=""></div>
+        <div class="popup-login">
+            <img src="img/login.svg" width="16px" height="16px" alt="">
+            <a href="#" class="popup-login-link">Login</a>
+        </div>
+    </div>
+
+
+    <div class="slides">
+        <div id="slide1" class="slide">
+            <h2 class="popup-header">Enter fitting room:</h2>
+            <p class="popup-paragraph">Receive Your Clothes in Your Perfect Fit Without a Size Tag.</p>
+            <button onclick="nextSlide()" class="popup-button">Get Started</button>
+            <!--<a href="#" class="powered-by side-note">Powered by Atelier Society</a>-->
+        </div>
+
+
+        <div id="slide2" class="slide">
+            <h2 class="popup-header">Choose fitting room:</h2>
+            <button onclick="nextSlide()" class="popup-button" style="width: 281px">Take quiz</button>
+            OR
+            <button class="popup-button">Enter your measurements</button>
+            <span>(Most accurate but you need a measuring tape)</span>
+        </div>
+
+
+        <div id="slide3" class="slide">
+            <h2 class="popup-header">Fitting room:</h2>
+            <div class="dropdowns">
+                <div class="dropdown">
+                    <label for="height">My <strong>height</strong> is: &nbsp;</label>
+                    <select id="height" name="height">
+                        <option value="<4'9''">4'9''</option>
+                        <option value="4'10''">4'10''</option>
+                        <option value="4'11''">4'11''</option>
+                        <option value="5'">5'</option>
+                        <option value="5'1''">5'1''</option>
+                        <option value="5'2''">5'2''</option>
+                        <option value="5'3''">5'3''</option>
+                        <option value="5'4''">5'4''</option>
+                        <option value="5'5''">5'5''</option>
+                        <option value="5'6''">5'6''</option>
+                        <option value="5'7''">5'7''</option>
+                        <option value="5'8''">5'8''</option>
+                        <option value="5'9''">5'9''</option>
+                        <option value="5'10''">5'10''</option>
+                        <option value="5'11''">5'11''</option>
+                        <option value="6'">6'</option>
+                        <option value="6'1''">6'1''</option>
+                        <option value=">6'1''">>6'1''</option>
+                    </select>&nbsp; in
+                </div>
+                <div class="dropdown">
+                    <label for="bra-size">My bra size is:</label>
+                    <select id="bra-size" name="bra-size">
+                        <option value="30A">30A</option>
+                        <option value="30B">30B</option>
+                        <option value="30C">30C</option>
+                        <option value="30D">30D</option>
+                        <option value="30DD">30DD</option>
+                        <option value="30DDD">30DDD</option>
+                        <option value="30G">30G</option>
+                        <option value="30H">30H</option>
+                        <option value="30I">30I</option>
+                        <option value="32A">32A</option>
+                        <option value="32B">32B</option>
+                        <option value="32C">32C</option>
+                        <option value="32D">32D</option>
+                        <option value="32DD">32DD</option>
+                        <option value="32DDD">32DDD</option>
+                        <option value="32G">32G</option>
+                        <option value="32H">32H</option>
+                        <option value="32I">32I</option>
+                        <option value="34A">34A</option>
+                        <option value="34B">34B</option>
+                        <option value="34C">34C</option>
+                        <option value="34D">34D</option>
+                        <option value="34DD">34DD</option>
+                        <option value="34DDD">34DDD</option>
+                        <option value="34G">34G</option>
+                        <option value="34H">34H</option>
+                        <option value="34I">34I</option>
+                        <option value="36A">36A</option>
+                        <option value="36B">36B</option>
+                        <option value="36C">36C</option>
+                        <option value="36D">36D</option>
+                        <option value="36DD">36DD</option>
+                        <option value="36DDD">36DDD</option>
+                        <option value="36G">36G</option>
+                        <option value="36H">36H</option>
+                        <option value="36I">36I</option>
+                        <option value="38A">38A</option>
+                        <option value="38B">38B</option>
+                        <option value="38C">38C</option>
+                        <option value="38D">38D</option>
+                        <option value="38DD">38DD</option>
+                        <option value="38DDD">38DDD</option>
+                        <option value="38G">38G</option>
+                        <option value="38H">38H</option>
+                    </select>
+                    &nbsp;at &nbsp;
+                    <select id="store" name="store">
+                        <option value="Aerie">Aerie</option>
+                        <option value="Victoria's Secret">Victoria's Secret</option>
+                        <option value="Calvin Klein">Calvin Klein</option>
+                        <option value="Skims">Skims</option>
+                    </select>
+                </div>
+            </div>
+            <button onclick="nextSlide()" class="popup-button rounded">Next</button>
+
+        </div>
+
+
+        <div id="slide4" class="slide">
+            <h2 class="popup-header">Fitting room:</h2>
+            <div class="dropdowns">
+                <div class="dropdown">
+                    <label for="jean">My <strong>Jean</strong> size is:&nbsp;</label>
+                    <select id="jean" name="jean">
+                        <option disabled selected></option>
+                    </select>
+                    &nbsp;at &nbsp;
+                    <select id="j_store" name="j_store">
+                        <option disabled selected value=""></option>
+                        <option value="other_stories">&amp; Other Stories</option>
+                        <option value="alice_olivia">Alice and Olivia</option>
+                        <option value="aritzia">Aritzia</option>
+                        <option value="ayr">AYR</option>
+                        <option value="algolde">Algolde</option>
+                        <option value="blank_nyc">Blank NYC</option>
+                        <option value="club_monaco">Club Monaco</option>
+                        <option value="citizens_humanity">Citizen's of Humanity</option>
+                        <option value="everlane">Everlane</option>
+                        <option value="frame">FRAME</option>
+                        <option value="gap">GAP</option>
+                        <option value="hudson_jeans">Hudson Jeans</option>
+                        <option value="madewell">Madewell</option>
+                        <option value="jcrew">J.Crew</option>
+                        <option value="levis">Levi's</option>
+                        <option value="paige">Paige</option>
+                        <option value="rag_bone">Rag &amp; Bone</option>
+                        <option value="scotch_soda">Scotch &amp; Soda</option>
+                        <option value="reformation">The Reformation</option>
+                        <option value="uniqlo">Uniqlo</option>
+                        <option value="veronica_beard">Veronica Beard</option>
+                    </select>
+                </div>
+                <div class="dropdown">
+                    <label for="shirt">My <strong>Shirt</strong> size is:&nbsp;</label>
+                    <select id="shirt" name="shirt">
+                        <option disabled selected value=""></option>
+                        <option value="00">Double 0</option>
+                        <option value="0">0</option>
+                        <option value="2">2</option>
+                        <option value="4">4</option>
+                        <option value="6">6</option>
+                        <option value="8">8</option>
+                        <option value="10">10</option>
+                        <option value="12">12</option>
+                        <option value="14">14</option>
+                        <option value="16">16</option>
+                        <option value="18">18</option>
+                        <option value="20">20</option>
+                        <option value="22">22</option>
+                        <option value="24">24</option>
+                        <option value="26">26</option>
+                        <option value="28">28</option>
+                        <option value="30">30</option>
+                        <option value="32">32</option>
+                        <option value="34">34</option>
+                        <option value="36">36</option>
+                        <option value="38">38</option>
+                        <option value="40">40</option>
+                        <option value="14W">14W</option>
+                        <option value="16W">16W</option>
+                        <option value="18W">18W</option>
+                        <option value="20W">20W</option>
+                        <option value="22W">22W</option>
+                        <option value="24W">24W</option>
+                        <option value="1X">1X</option>
+                        <option value="2X">2X</option>
+                        <option value="3X">3X</option>
+                        <option value="4X">4X</option>
+                        <option value="6X">6X</option>
+                    </select>
+                    &nbsp;at &nbsp;
+                    <select id="s_store" name="s_store">
+                        <option disabled selected value=""></option>
+                        <option value="other_stories">&amp; Other Stories</option>
+                        <option value="alc">A.L.C.</option>
+                        <option value="ann_taylor">Ann Taylor</option>
+                        <option value="aritzia">Aritzia</option>
+                        <option value="asos">ASOS</option>
+                        <option value="banana_republic">Banana Republic</option>
+                        <option value="cinq_a_sept">Cinq à Sept</option>
+                        <option value="club_monaco">Club Monaco</option>
+                        <option value="cos">COS</option>
+                        <option value="eloquii">Eloquii</option>
+                        <option value="gap">GAP</option>
+                        <option value="jcrew">J.Crew</option>
+                        <option value="lafayette_148">Lafayette 148 New York</option>
+                        <option value="madewell">Madewell</option>
+                        <option value="mango">Mango</option>
+                        <option value="paige">Paige</option>
+                        <option value="sezane">Sézane</option>
+                        <option value="staud">STAUD</option>
+                        <option value="reformation">The Reformation</option>
+                        <option value="theory">Theory</option>
+                        <option value="tory_burch">Tory Burch</option>
+                        <option value="ulla_johnson">Ulla Johnson</option>
+                        <option value="universal_standard">Universal Standard</option>
+                        <option value="veronica_beard">Veronica Beard</option>
+                        <option value="vince">Vince</option>
+                        <option value="lane_bryant">Lane Bryant</option>
+                    </select>
+                </div>
+            </div>
+            <button onclick="nextSlide()" class="popup-button rounded">Next</button>
+        </div>
+
+        <div id="slide5" class="slide">
+            <h2 class="popup-header">Click on all that apply:</h2>
+            <div class="checkboxes">
+                <div class="checkbox-container">
+                    <input type="checkbox" id="checkbox1" name="checkbox1" value="jeans_fit">
+                    <label for="checkbox1">Jeans tend to fit my buttocks but never my waist</label>
+                </div>
+
+                <div class="checkbox-container">
+                    <input type="checkbox" id="checkbox2" name="checkbox2" value="tops_size">
+                    <label for="checkbox2">I always have to wear a size up in tops because my breasts are very
+                        large</label>
+                </div>
+
+                <div class="checkbox-container">
+                    <input type="checkbox" id="checkbox3" name="checkbox3" value="none">
+                    <label for="checkbox3">None of the above</label>
+                </div>
+            </div>
+            <button onclick="nextSlide()" class="popup-button rounded">Next</button>
+        </div>
+
+        <div id="slide6" class="slide">
+            <h2 class="popup-header">Feeting room:</h2>
+            <p><strong>On me shirt sleeves are generally:</strong></p>
+            <div class="checkbox-line">
+                <label><input type="checkbox" name="length" value="too long">Too Long</label>
+                <label><input type="checkbox" name="length" value="too short">Too Short</label>
+                <label><input type="checkbox" name="length" value="just right">Just Right</label>
+            </div>
+
+            <p><strong>On me pants are generally:</strong></p>
+            <div class="checkbox-line">
+                <label><input type="checkbox" name="length" value="too long">Too Long</label>
+                <label><input type="checkbox" name="length" value="too short">Too Short</label>
+                <label><input type="checkbox" name="length" value="just right">Just Right</label>
+            </div>
+            <button onclick="nextSlide()" class="popup-button rounded">Next</button>
+        </div>
+
+        <div id="slide7" class="slide">
+            <h2 class="popup-header">Feeting room:</h2>
+            <p><strong>My current jeans fit:</strong></p>
+            <div class="checkbox-line">
+                <label><input type="checkbox" name="length" value="too tight">Too Tight</label>
+                <label><input type="checkbox" name="length" value="too loose">Too Loose</label>
+                <label><input type="checkbox" name="length" value="just right">Just Right</label>
+            </div>
+
+            <p><strong>My current tops fit:</strong></p>
+            <div class="checkbox-line">
+                <label><input type="checkbox" name="length" value="too tight">Too Tight</label>
+                <label><input type="checkbox" name="length" value="too loose">Too Loose</label>
+                <label><input type="checkbox" name="length" value="just right">Just Right</label>
+            </div>
+            <button onclick="nextSlide()" class="popup-button rounded">Complete</button>
+        </div>
+
+        <div id="slide8" class="slide">
+            <h2 class="popup-header">Last step!</h2>
+            <p>Do you want your clothes to arrive <u>without</u> a size tag?</p>
+            <p>(this is shown to have mental health benefits) </p>
+            <div class="checkbox-line">
+                <label><input type="checkbox" name="yes" value="yes">Yes</label>
+                <label><input type="checkbox" name="dontcare" value="dontcare">I don't care</label>
+            </div>
+
+
+            <button onclick="nextSlide()" class="popup-button rounded">Complete</button>
+        </div>
+    </div>
+
+    <div>
+        <a href="#" class="powered-by">Powered by Atelier Society</a>
+        <p class="side-note hidden">Step <span class="page_num"></span> of 5</p>
+    </div>
+
+</div>
+
+<script>
+    function openPopup() {
+        var popup = document.getElementById("popupContainer");
+        popup.style.display = "flex";
+        showSlide(1);
+    }
+
+    function closePopup() {
+        var popup = document.getElementById("popupContainer");
+        popup.style.display = "none";
+    }
+
+    function previousSlide() {
+        var currentSlide = getCurrentSlide();
+        if (currentSlide > 1) {
+            showSlide(currentSlide - 1);
+        }
+    }
+
+    function nextSlide() {
+        var currentSlide = getCurrentSlide();
+        if (currentSlide < 8) {
+            showSlide(currentSlide + 1);
+        }
+    }
+
+    function getCurrentSlide() {
+        var slides = document.getElementsByClassName("slide");
+        for (var i = 0; i < slides.length; i++) {
+            if (slides[i].classList.contains("active")) {
+                return i + 1;
+            }
+        }
+    }
+
+    function showSlide(slideNumber) {
+        var slides = document.getElementsByClassName("slide");
+        for (var i = 0; i < slides.length; i++) {
+            slides[i].classList.remove("active");
+        }
+
+        slides[slideNumber - 1].classList.add("active");
+        slides[slideNumber - 1].style.animation = "fade-in 0.5s ease-in";
+
+        var previousSlide = slideNumber - 2;
+        if (previousSlide >= 0) {
+            slides[previousSlide].style.animation = "fade-out 0.5s ease-out";
+            setTimeout(function () {
+                slides[previousSlide].classList.remove("active");
+            }, 500);
+        }
+
+        sideNote();
+        backBtn();
+    }
+
+    function backBtn() {
+        const backBtn = document.querySelector('.back-btn');
+        if (getCurrentSlide() === 1) {
+            backBtn.style.display = "none"
+        } else {
+            backBtn.style.display = "flex"
+        }
+    }
+
+    function sideNote() {
+        const side_note = document.querySelector('.side-note');
+        const powered_by = document.querySelector('.powered-by');
+        const page_num = document.querySelector('.page_num');
+        if (getCurrentSlide() > 2) {
+            powered_by.classList.add('hidden');
+            side_note.classList.remove('hidden')
+            page_num.innerText = getCurrentSlide() - 2;
+        }
+    }
+
+
+    const options = [21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, "14W", "15 Extended", 37, "16W", "16 Extended", 38, "18W", "18 Extended", 39, "20W", "20 Extended", 40, "22W", "22 Extended", 41, "24W", "24 Extended", 42, "26W", "28W"];
+
+    const selectElement = document.getElementById("jean");
+
+    options.forEach((option) => {
+        const optionElement = document.createElement("option");
+        optionElement.value = option;
+        optionElement.text = option;
+        selectElement.appendChild(optionElement);
+    });
+
+
+    const checkbox1 = document.getElementById("checkbox1");
+    const checkbox2 = document.getElementById("checkbox2");
+    const checkbox3 = document.getElementById("checkbox3");
+
+    checkbox3.addEventListener("change", () => {
+        if (checkbox3.checked) {
+            checkbox1.checked = false;
+            checkbox2.checked = false;
+        }
+    });
+
+    checkbox1.addEventListener("change", () => {
+        if (checkbox1.checked) {
+            checkbox3.checked = false;
+        }
+    });
+
+    checkbox2.addEventListener("change", () => {
+        if (checkbox2.checked) {
+            checkbox3.checked = false;
+        }
+    });
+</script>
+</body>
+</html>

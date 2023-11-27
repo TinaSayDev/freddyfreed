@@ -13,7 +13,7 @@
             box-sizing: border-box;
         }
 
-        .larger-font{
+        .larger-font {
             font-size: 20px;
         }
 
@@ -61,7 +61,7 @@
             transform: translateY(-30px);
         }
 
-        .upper-margin{
+        .upper-margin {
             margin-top: 20px;
         }
 
@@ -116,7 +116,7 @@
 
         .powered-by {
             position: absolute;
-            bottom: -140px;
+            bottom: -170px;
             right: 0;
             font-size: 15.3px;
             color: #1D3059;
@@ -125,7 +125,7 @@
 
         .policy {
             position: absolute;
-            bottom: -120px;
+            bottom: -140px;
             right: 0;
         }
 
@@ -165,6 +165,7 @@
         .close-icon:hover {
             transform: scale(1.2);
         }
+
         .back-btn {
             width: 35px;
             height: 35px;
@@ -172,14 +173,12 @@
             color: white;
             border-radius: 10px;
             border: none;
-            position: absolute;
-            left: -10px;
-            bottom: -120px;
             font-size: x-large;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
+            text-decoration: none;
         }
 
 
@@ -272,7 +271,7 @@
             color: white;
         }
 
-        .in_switcher,.cm_switcher{
+        .in_switcher, .cm_switcher {
             cursor: pointer;
             text-decoration: underline;
         }
@@ -316,9 +315,9 @@
 
 <div id="popupContainer" class="popup">
     <span class="close-icon" onclick="closePopup()">X</span>
-    <!--<button onclick="previousSlide()" class="back-btn"><<</button>-->
 
     <div class="popup-top">
+        <button onclick="previousSlide()" class="back-btn hidden"><</button>
         <div class="popup-logo"><img src="img/logo.png" alt=""></div>
         <div class="popup-login">
             <img src="img/login.svg" width="16px" height="16px" alt="">
@@ -334,9 +333,7 @@
 
             <button onclick="nextSlide()" class="popup-button">Get Started</button>
 
-            <div class="slider-footer">
-                <a href="#" class="powered-by">Powered by Atelier Society</a>
-            </div>
+            <a href="#" class="powered-by">Powered by Atelier Society</a>
         </div>
 
 
@@ -350,10 +347,9 @@
             <div class="slider-footer">
                 <span class="policy">By continuing, you are agreeing to Atelier Society's
                 <a href="https://ateliersociety.com/policies/privacy-policy" class="">Privacy Policy</a> and <a
-                        href="https://ateliersociety.com/policies/terms-of-service"
-                        class="">Terms and Conditions</a>.</span>
+                            href="https://ateliersociety.com/policies/terms-of-service"
+                            class="">Terms and Conditions</a>.</span>
 
-                <button onclick="previousSlide()" class="back-btn"><<</button>
             </div>
         </div>
 
@@ -468,7 +464,8 @@
                         <option value="200">200</option>
                     </select>
                     &nbsp;
-                    <span><span class="in_switcher" onclick="choose_inches()">in</span> &nbsp;<span class="cm_switcher" onclick="choose_cm()">cm</span></span>
+                    <span><span class="in_switcher" onclick="choose_inches()">in</span> &nbsp;<span class="cm_switcher"
+                                                                                                    onclick="choose_cm()">cm</span></span>
                 </div>
                 <div class="dropdown">
                     <label for="bra-size">My bra size is:</label>
@@ -531,9 +528,6 @@
             </div>
             <button onclick="nextSlide()" class="popup-button rounded upper-margin">Next</button>
 
-            <div class="slider-footer">
-                <button onclick="previousSlide()" class="back-btn"><<</button>
-            </div>
         </div>
 
 
@@ -643,7 +637,6 @@
             </div>
             <button onclick="nextSlide()" class="popup-button rounded upper-margin">Next</button>
 
-            <button onclick="previousSlide()" class="back-btn"><<</button>
 
         </div>
 
@@ -668,7 +661,6 @@
             </div>
             <button onclick="nextSlide()" class="popup-button rounded upper-margin">Next</button>
 
-            <button onclick="previousSlide()" class="back-btn"><<</button>
 
         </div>
 
@@ -689,7 +681,6 @@
             </div>
             <button onclick="nextSlide()" class="popup-button rounded upper-margin">Next</button>
 
-            <button onclick="previousSlide()" class="back-btn"><<</button>
 
         </div>
 
@@ -710,7 +701,6 @@
             </div>
             <button onclick="nextSlide()" class="popup-button rounded upper-margin">Complete</button>
 
-            <button onclick="previousSlide()" class="back-btn"><<</button>
 
         </div>
 
@@ -724,12 +714,16 @@
 
 <script>
 
-    const popupLogin=document.querySelector('.popup-login')
-    function removeLogin(){
-        if (getCurrentSlide()>2){
-            popupLogin.style.display="none"
-        }else{
-            popupLogin.style.display="flex"
+    const popupLogin = document.querySelector('.popup-login')
+    const backBtn1 = document.querySelector('.back-btn')
+
+    function removeLogin() {
+        if (getCurrentSlide() > 2) {
+            popupLogin.style.visibility = "hidden"
+            backBtn1.classList.remove('hidden')
+        } else {
+            popupLogin.style.visibility = "visible"
+            backBtn1.classList.add('hidden')
         }
     }
 
@@ -746,7 +740,6 @@
 
     function previousSlide() {
         var currentSlide = getCurrentSlide();
-        backBtn()
         if (currentSlide > 1) {
             showSlide(currentSlide - 1);
         }
@@ -783,7 +776,6 @@
             setTimeout(function () {
                 slides[previousSlide].classList.remove("active");
                 sideNote();
-                backBtn();
                 removeLogin()
             }, 500);
         }
@@ -800,16 +792,6 @@
             page_num.innerText = getCurrentSlide() - 2;
         } else {
             steps_nav.classList.add('hidden')
-        }
-    }
-
-
-    function backBtn() {
-        const backBtn = document.querySelector('.back-btn');
-        if (getCurrentSlide() > 1) {
-            backBtn.classList.remove('hidden')
-        } else if (getCurrentSlide() === 1) {
-            backBtn.classList.add('hidden')
         }
     }
 
@@ -849,18 +831,18 @@
         }
     });
 
-    const inches=document.querySelector('#heightin')
-    const cm=document.querySelector('#heightcm')
-    function choose_cm(){
+    const inches = document.querySelector('#heightin')
+    const cm = document.querySelector('#heightcm')
+
+    function choose_cm() {
         cm.classList.remove('hidden')
         inches.classList.add('hidden')
     }
-    function choose_inches(){
+
+    function choose_inches() {
         inches.classList.remove('hidden')
         cm.classList.add('hidden')
     }
-
-
 
 </script>
 </body>
